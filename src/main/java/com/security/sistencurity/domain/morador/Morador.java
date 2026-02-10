@@ -27,7 +27,8 @@ public class Morador {
     cascade = CascadeType.ALL)
     private List<Visitante> visitantes;
 
-    public Morador(MoradorDTO dados){
+    public Morador(Long id,MoradorDTO dados){
+        this.id = id;
         this.nomeCompleto = dados.nomeCompleto();
         this.cpf = dados.cpf();
         this.numeroTelefone = dados.numeroTelefone();
