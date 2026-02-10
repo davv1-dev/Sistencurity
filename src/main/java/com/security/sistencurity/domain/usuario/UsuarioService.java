@@ -1,5 +1,7 @@
 package com.security.sistencurity.domain.usuario;
 
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.CustomAutowireConfigurer;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +26,9 @@ public class UsuarioService implements UserDetailsService {
         return repository.findByNomeMorador(username);
     }
 
-    public Long cadastrarUsuario(UsuarioDTO dados){
-
+    public Long cadastrarUsuarioMorador(@NotBlank String nome,  @NotBlank String senha,@NotBlank Perfil perfil) {
+        Usuario usuarioNovo = new Usuario(nome,senha,perfil);
+        repository.save(usuarioNovo);
+        return usuarioNovo.getId();
     }
 }

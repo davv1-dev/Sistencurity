@@ -24,9 +24,10 @@ public class Usuario implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private Perfil perfil;
 
-public Usuario (UsuarioDTO dados){
-    this.nomeMorador = dados.nome();
-    this.senha = dados.senha();
+public Usuario (String nome, String senha,Perfil perfil) {
+    this.nomeMorador = nome;
+    this.senha = senha;
+    this.perfil = perfil;
 }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

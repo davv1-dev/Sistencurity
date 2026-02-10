@@ -26,4 +26,12 @@ public class Morador {
     @OneToMany(mappedBy = "morador",
     cascade = CascadeType.ALL)
     private List<Visitante> visitantes;
+
+    public Morador(MoradorDTO dados){
+        this.nomeCompleto = dados.nomeCompleto();
+        this.cpf = dados.cpf();
+        this.numeroTelefone = dados.numeroTelefone();
+        this.torre = dados.torre();
+        this.apartamento = dados.apartamento();
+    }
 }
