@@ -35,4 +35,7 @@ public class Morador {
         this.torre = dados.torre();
         this.apartamento = dados.apartamento();
     }
+    public void adicionarVisitante(Visitante visitante){
+        this.visitantes.add(visitante);
+    }
 }

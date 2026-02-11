@@ -5,10 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.aspectj.weaver.AjAttribute;
-
 import java.time.Instant;
-import java.time.LocalDateTime;
+
 
 @Entity(name = "visitante")
 @Table(name = "visitantes")
@@ -26,5 +24,11 @@ public class Visitante {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "morador_id",nullable = false)
     private Morador morador;
+    public Visitante(VisitanteDTO visitante,Morador morador){
+        this.nomeCompletoVisitante = visitante.nome();
+        this.nomeCompletoMorador = morador.getNomeCompleto();
+        this.cpf = visitante.cpf();
+        this.morador = morador;
+    }
 
 }
