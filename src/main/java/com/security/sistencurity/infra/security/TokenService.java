@@ -12,13 +12,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 @Service
 public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
+    Algorithm algoritimo = Algorithm.HMAC256(secret);
     public String gerarToken(@NotNull Usuario usuario){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -34,7 +35,7 @@ public class TokenService {
     }
     public String getSubject(String tokenJWT) {
         try {
-            var algoritimo = Algorithm.HMAC256(secret);
+
             return JWT.require(algoritimo)
                     .withIssuer("ApiSistencurity")
                     .build()
@@ -45,7 +46,11 @@ public class TokenService {
             throw new TokenInvalidoException("TokenJWT invalido ou expirado");
         }
     }
+    public String gerarRefreshToken() {
+        return UUID.randomUUID().toString();
+    }
+
     private Instant dataExpiracao() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+        return Instant.now().plus(15, ChronoUnit.MINUTES);
     }
 }

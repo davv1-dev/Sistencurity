@@ -27,7 +27,8 @@ public class SecurityConfiguration {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).authorizeHttpRequests(auth-> auth
                         .requestMatchers(HttpMethod.POST,"/login").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/sistencurity/cadastromorador").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/sistencurity/cadastromorador")
+                        .hasRole("ADMINISTRADOR")
                         .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
