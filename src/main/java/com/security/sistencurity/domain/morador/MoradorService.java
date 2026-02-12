@@ -18,7 +18,7 @@ public class MoradorService {
     private VisitanteService visitanteService;
 
     public MoradorDTORetorno cadastrarMoradorNovo(MoradorDTO moradorNovo) {
-        Long id = usuarioService.cadastrarUsuarioMorador(moradorNovo.nomeCompleto(),moradorNovo.cpf(), Perfil.MORADOR);
+        Long id = usuarioService.cadastrarUsuario(moradorNovo.nomeCompleto(),moradorNovo.cpf(), Perfil.MORADOR);
         Morador morador = new Morador(id,moradorNovo);
         repository.save(morador);
         MoradorDTORetorno retorno = new MoradorDTORetorno(morador);

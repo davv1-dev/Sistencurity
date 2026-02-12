@@ -42,7 +42,7 @@ public class UsuarioService implements UserDetailsService {
         return repository.findByUsername(username);
     }
 @Transactional
-    public Long cadastrarUsuarioMorador(@NotBlank String nome,  @NotBlank String senha,@NotBlank Perfil perfil) {
+    public Long cadastrarUsuario(@NotBlank String nome,  @NotBlank String senha,@NotBlank Perfil perfil) {
         Usuario usuarioNovo = new Usuario(nome,senha,perfil);
         repository.save(usuarioNovo);
         return usuarioNovo.getId();
