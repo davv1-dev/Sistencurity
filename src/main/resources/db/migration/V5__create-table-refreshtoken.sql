@@ -1,0 +1,11 @@
+CREATE TABLE refreshtoken(
+id UUID NOT NULL UNIQUE,
+token VARCHAR(255) NOT NULL UNIQUE,
+usuario_id BIGINT NOT NULL,
+data_expiracao TIMESTAMP WITH TIME ZONE NOT NULL,
+
+CONSTRAINT fk_refresh_usuario
+FOREIGN KEY (usuario_id)
+REFERENCES usuario(id)
+ON DELETE CASCADE
+)

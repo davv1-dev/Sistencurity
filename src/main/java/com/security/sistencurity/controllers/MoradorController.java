@@ -24,9 +24,6 @@ public class MoradorController {
 
     @PostMapping("/cadastro-morador")
     public ResponseEntity cadastroMorador(@RequestBody MoradorDTO moradorNovo, @AuthenticationPrincipal Usuario logado){
-        if(logado.getPerfil() != Perfil.ADMINISTRADOR){
-            throw new NaoPossuiAltorizacaoException("Você não possui autorização para fazer isso.");
-        }
        var retorno = service.cadastrarMoradorNovo(moradorNovo);
        return ResponseEntity.status(HttpStatus.CREATED).body("Novo morador cadastrado com sucesso:\n"+retorno);
     }

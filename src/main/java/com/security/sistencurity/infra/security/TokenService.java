@@ -19,7 +19,7 @@ import java.util.UUID;
 public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
-    Algorithm algoritimo = Algorithm.HMAC256(secret);
+
     public String gerarToken(@NotNull Usuario usuario){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -35,7 +35,7 @@ public class TokenService {
     }
     public String getSubject(String tokenJWT) {
         try {
-
+            Algorithm algoritimo = Algorithm.HMAC256(secret);
             return JWT.require(algoritimo)
                     .withIssuer("ApiSistencurity")
                     .build()

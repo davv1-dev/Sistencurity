@@ -11,7 +11,6 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 @Service
@@ -30,8 +28,6 @@ public class UsuarioService implements UserDetailsService {
     private UsuarioRepository repository;
     @Autowired
     private final PasswordEncoder passwordEncoder;
-    @Autowired
-    private AuthenticationManager manager;
     @Autowired
     private TokenService tokenService;
     @Autowired
@@ -52,9 +48,7 @@ public class UsuarioService implements UserDetailsService {
         return usuarioNovo.getId();
     }
 @Transactional
-    public TokenResponseDTO efetuarLogin(@Valid UsuarioDTOEntrada dados) {
-        var token = new UsernamePasswordAuthenticationToken(dados.nome(),dados.senha());
-        var authentication = manager.authenticate(token);
+    public TokenResponseDTO efetuarLogin(@Valid UsuarioDTOEntrada dados,Authentication authentication) {
         Usuario usuarioAutenticado = (Usuario) authentication.getPrincipal();
         var tokenJWT = tokenService.gerarToken(usuarioAutenticado);
         RefreshToken refreshToken = new RefreshToken();
