@@ -18,7 +18,6 @@ public class Visitante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nomeCompletoVisitante;
-    private String nomeCompletoMorador;
     private String cpf;
     private Instant dataVisita;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,7 +25,6 @@ public class Visitante {
     private Morador morador;
     public Visitante(VisitanteDTO visitante,Morador morador){
         this.nomeCompletoVisitante = visitante.nome();
-        this.nomeCompletoMorador = morador.getNomeCompleto();
         this.cpf = visitante.cpf();
         this.morador = morador;
     }
