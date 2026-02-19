@@ -1,6 +1,8 @@
 package com.security.sistencurity.controllers;
 
 import com.security.sistencurity.domain.auth.RefreshDTO;
+import com.security.sistencurity.domain.usuario.AlteracaoDeSenhaDTO;
+import com.security.sistencurity.domain.usuario.Usuario;
 import com.security.sistencurity.domain.usuario.UsuarioDTOEntrada;
 import com.security.sistencurity.domain.usuario.UsuarioService;
 import jakarta.validation.Valid;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +41,10 @@ public class UsuarioController {
     public ResponseEntity logout(Authentication authentication){
         service.fazerLogout(authentication);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+    @PostMapping("/alterar-senha")
+    public ResponseEntity alterarSenha(@RequestBody @Valid AlteracaoDeSenhaDTO dados, @AuthenticationPrincipal Usuario usuarioLogado){
+        service.alterarSenha(dados, usuarioLogado.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("Senha alterada com sucesso");
     }
 }

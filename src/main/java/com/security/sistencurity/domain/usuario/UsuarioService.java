@@ -3,6 +3,7 @@ package com.security.sistencurity.domain.usuario;
 import com.security.sistencurity.domain.auth.RefreshDTO;
 import com.security.sistencurity.domain.auth.RefreshToken;
 import com.security.sistencurity.domain.auth.RefreshTokenRepository;
+import com.security.sistencurity.infra.exceptions.AlteracaoDeSenhaException;
 import com.security.sistencurity.infra.exceptions.RefreshTokenExpiradoException;
 import com.security.sistencurity.infra.exceptions.RefreshTokenNaoExisteException;
 import com.security.sistencurity.infra.security.TokenResponseDTO;
@@ -43,7 +44,8 @@ public class UsuarioService implements UserDetailsService {
     }
 @Transactional
     public Long cadastrarUsuario(@NotBlank String nome,  @NotBlank String senha,@NotBlank Perfil perfil) {
-        Usuario usuarioNovo = new Usuario(nome,senha,perfil);
+        var senhaCriptografada = passwordEncoder.encode(senha);
+        Usuario usuarioNovo = new Usuario(nome,senhaCriptografada,perfil);
         repository.save(usuarioNovo);
         return usuarioNovo.getId();
     }
@@ -72,5 +74,17 @@ public class UsuarioService implements UserDetailsService {
     public void fazerLogout(Authentication authentication) {
         Usuario usuario = (Usuario) authentication.getPrincipal();
         refreshTokenRepository.deleteByUsuario(usuario);
+    }
+    public void alterarSenha(AlteracaoDeSenhaDTO dados,Long id){
+        Usuario usuario = repository.getReferenceById(id);
+        var senhaAtualCriptografada = passwordEncoder.encode(dados.senhaAtual());
+        if(!passwordEncoder.matches(dados.senhaAtual(), usuario.getSenha())){
+            throw new AlteracaoDeSenhaException("A senha atual não é essa");
+        }
+        if(!dados.novaSenha().equals(dados.novaSenhaConfirmacao())){
+            throw new AlteracaoDeSenhaException("A senha digitada deve ser identica");
+        }
+        var novaSenhaCriptografada= passwordEncoder.encode(dados.novaSenha());
+        usuario.alterarSenha(novaSenhaCriptografada);
     }
 }

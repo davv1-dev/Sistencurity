@@ -22,6 +22,7 @@ public class MoradorService {
     @Autowired
     private VisitanteService visitanteService;
 
+
     public MoradorDTORetorno cadastrarMoradorNovo(MoradorDTO moradorNovo) {
         Long id = usuarioService.cadastrarUsuario(moradorNovo.nomeCompleto(), moradorNovo.cpf(), Perfil.MORADOR);
         Morador morador = new Morador(id, moradorNovo);

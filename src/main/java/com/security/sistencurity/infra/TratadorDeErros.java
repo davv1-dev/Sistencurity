@@ -42,7 +42,11 @@ public class TratadorDeErros {
         DadosErro erro = new DadosErro("Id",e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of(erro));
     }
-
+    @ExceptionHandler(AlteracaoDeSenhaException.class)
+    public ResponseEntity<List<DadosErro>> errosNaAlteracaoDeSenha(AlteracaoDeSenhaException e){
+        DadosErro erro = new DadosErro("Senha", e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(List.of(erro));
+    }
     private record DadosErro(String campo,String mensagem){
         public DadosErro(FieldError e){
             this(e.getField(),e.getDefaultMessage());

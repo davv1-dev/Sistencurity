@@ -28,9 +28,8 @@ public class SecurityConfiguration {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).authorizeHttpRequests(auth-> auth
-//                        .requestMatchers(HttpMethod.POST,"/login").permitAll()
-//                        .requestMatchers(HttpMethod.POST,"/sistencurity/cadastromorador")
-//                        .hasRole("ADMINISTRADOR")
+                      .requestMatchers(HttpMethod.POST,"/sistencurity/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/sistencurity/login/alterar-senha").permitAll()
                         .anyRequest().authenticated()
                 ).addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 

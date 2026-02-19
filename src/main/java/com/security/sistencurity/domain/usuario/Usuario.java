@@ -65,4 +65,8 @@ public Usuario (String nome, String senha,Perfil perfil) {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
+
+    public void alterarSenha(String novaSenhaCriptografada) {
+    this.senha = novaSenhaCriptografada;
+    }
 }
